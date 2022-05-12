@@ -56,10 +56,13 @@ app.post('/resources', async (req, res) => {
       reasonForRecommendation} = resourceData
     const postQuery = `insert into resources 
     (userid, recommendation_reasoning, original_recommendation, stage, content_type, description, author_name, url, name)
-    values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *`
 
-    await client.query(postQuery, [7, reasonForRecommendation, recommendation, buildPhaseWeek, resourceType,
-    description, authorName, URL, resourceName  ])
+    const postedQuery = await client.query(postQuery, [1, reasonForRecommendation, recommendation, buildPhaseWeek, resourceType,
+    description, authorName, URL, resourceName])
+    res.status(200).json({status: 'success', data: {
+      info: postedQuery.rows,
+    }})
   }catch(error){
     res.status(404)
     console.error(error)
