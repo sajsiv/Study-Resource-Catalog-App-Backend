@@ -1,5 +1,4 @@
 drop table if exists tostudy;
-drop table if exists tags;
 drop table if exists likes;
 drop table if exists comments;
 drop table if exists resources;
@@ -37,12 +36,6 @@ CREATE TABLE tostudy (
     foreign key (userid) references users (userid)
 );
 
-CREATE TABLE tags (
-    tagid serial primary key,
-  	resourceid integer,
-    foreign key (resourceid) references resources (resourceid),
-    tag varchar(255) NOT NULL
-);
 
 CREATE TABLE likes (
     likeid serial primary key,
