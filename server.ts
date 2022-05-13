@@ -38,9 +38,35 @@ app.use(cors()) //add CORS support to each following route handler
 const client = new Client(dbConfig);
 client.connect();
 
-app.get("/", async (req, res) => {
-  const dbres = await client.query('select * from categories');
-  res.json(dbres.rows);
+app.get("/resources/:id", async (req, res) => {
+  try{
+    const id = req.params.id
+    const dbres = await client.query('select * from resources where resourceid = $1', [id]);
+    res.status(200).json(dbres.rows[0]);
+  } catch(error){
+    res.status(400)
+    console.error(error)
+  }
+});
+
+app.get("/resources", async (req, res) => {
+  try{
+    const dbres = await client.query('select * from resources');
+    res.status(200).json(dbres.rows);
+  } catch(error){
+    res.status(400)
+    console.error(error)
+  }
+});
+
+app.get("/resources/tags", async (req, res) => {
+  try{
+    const dbres = await client.query('select * from resources inner join tags on resourceid = resourceid ');
+    res.status(200).json(dbres.rows);
+  } catch(error){
+    res.status(400)
+    console.error(error)
+  }
 });
 
 app.post('/resources', async (req, res) => {
@@ -64,7 +90,7 @@ app.post('/resources', async (req, res) => {
       info: postedQuery.rows,
     }})
   }catch(error){
-    res.status(404)
+    res.status(400)
     console.error(error)
   }
 
