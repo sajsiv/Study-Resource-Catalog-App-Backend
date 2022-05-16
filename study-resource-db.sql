@@ -26,8 +26,6 @@ CREATE TABLE resources (
   foreign key(userid) references users (userid)
 );
 
-
-
 CREATE TABLE tostudy (
     studyid serial primary key,
   	resourceid integer,
