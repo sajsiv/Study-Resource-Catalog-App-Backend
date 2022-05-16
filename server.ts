@@ -51,7 +51,7 @@ app.get("/resources/:id", async (req, res) => {
 
 app.get("/resources", async (req, res) => {
   try{
-    const dbres = await client.query('select * from resources');
+    const dbres = await client.query('select * from resources order by creation_date desc');
     res.status(200).json(dbres.rows);
   } catch(error){
     res.status(400)
@@ -79,13 +79,14 @@ app.post('/resources', async (req, res) => {
       resourceType,
       buildPhaseWeek,
       recommendation,
-      reasonForRecommendation} = resourceData
+      reasonForRecommendation,
+      tags} = resourceData
     const postQuery = `insert into resources 
-    (userid, recommendation_reasoning, original_recommendation, stage, content_type, description, author_name, url, name)
-    values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *`
+    (userid, recommendation_reasoning, original_recommendation, stage, content_type, description, author_name, url, name, tags)
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`
 
     const postedQuery = await client.query(postQuery, [1, reasonForRecommendation, recommendation, buildPhaseWeek, resourceType,
-    description, authorName, URL, resourceName])
+    description, authorName, URL, resourceName, tags])
     res.status(200).json({status: 'success', data: {
       info: postedQuery.rows,
     }})
