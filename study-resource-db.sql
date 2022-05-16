@@ -23,6 +23,7 @@ CREATE TABLE resources (
   author_name character varying(255) NOT NULL,
   url character varying(255) NOT NULL,
   name character varying(255) NOT NULL,
+  tags character varying(255) NOT NULL,
   foreign key(userid) references users (userid)
 );
 
