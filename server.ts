@@ -38,6 +38,16 @@ app.use(cors()) //add CORS support to each following route handler
 const client = new Client(dbConfig);
 client.connect();
 
+app.get("/users", async (req, res) => {
+  try{
+    const dbres = await client.query('select * from users order by is_faculty desc, name');
+    res.status(200).json(dbres.rows);
+  } catch(error){
+    res.status(400)
+    console.error(error)
+  }
+});
+
 app.get("/resources/:id", async (req, res) => {
   try{
     const id = req.params.id

@@ -54,6 +54,33 @@ CREATE TABLE comments (
     comment_text varchar(255) NOT NULL 
 );
 
+INSERT INTO users (is_faculty, name) VALUES 
+(true, 'Mateusz Krol'), 
+(true, 'Matthew Man'),
+(true, 'Neill B'),
+(true, 'Katie Davis'),
+(true, 'Richard Ng'),
+(true, 'Aluka Chiama'),
+(true, 'Mateusz Krol'),
+(false, 'Abdul Rehman Shaikh'),
+(false, 'Anna-Zeri Temir'),
+(false, 'Christian Sophocleous'),
+(false, 'Emmanuel Falola'),
+(false, 'Eralia Katsakiori'),
+(false, 'Folajimi Akinwale'),
+(false, 'Jacob Cutts'),
+(false, 'Laura Jamieson'),
+(false, 'Elizabeth Vinand'),
+(false, 'Mat Batten'),
+(false, 'Nobeen Islam'),
+(false, 'Owen Dearman'),
+(false, 'Roshni Patel'),
+(false, 'Saj Sivia'),
+(false, 'Soso Ogan'),
+(false, 'Temi Labinjo'),
+(false, 'Tiffany Wilmot-Simpson'),
+(false, 'Zahra Ben Gaied Hassine');
+
 
 
 
