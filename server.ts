@@ -81,12 +81,13 @@ app.post('/resources', async (req, res) => {
       recommendation,
       reasonForRecommendation,
       tags} = resourceData
+    const tagsLowerCase = tags.toLowerCase()
     const postQuery = `insert into resources 
     (userid, recommendation_reasoning, original_recommendation, stage, content_type, description, author_name, url, name, tags)
     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`
 
     const postedQuery = await client.query(postQuery, [1, reasonForRecommendation, recommendation, buildPhaseWeek, resourceType,
-    description, authorName, URL, resourceName, tags])
+    description, authorName, URL, resourceName, tagsLowerCase])
     res.status(200).json({status: 'success', data: {
       info: postedQuery.rows,
     }})
