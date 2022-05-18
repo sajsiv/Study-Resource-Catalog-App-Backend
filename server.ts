@@ -15,6 +15,18 @@ interface FormDataInterface {
   reasonForRecommendation: string;
   userid: number;
 }
+interface likeDataInterface {
+  likeValue: boolean,
+  resourceID: number,
+  userID: number
+}
+
+interface commentDataInterface {
+  commentText: string,
+  resourceID: number,
+  userID: number
+}
+
 
 config(); //Read .env file lines as though they were env vars.
 
@@ -79,6 +91,36 @@ app.get("/resources/tags", async (req, res) => {
     console.error(error)
   }
 });
+
+app.post('/likes', async (req,res) => {
+  try{
+    const likeData: likeDataInterface = req.body
+    const dbres = await client.query('insert into likes (userid, resourceid, like_value) values ($1, $2, $3) returning *', [likeData.userID, likeData.resourceID, likeData.likeValue])
+    res.status(200).send(dbres)
+  }catch (error){
+    res.status(400).send(error)
+  }
+})
+
+app.post('/comments', async (req,res) => {
+  try{
+    const commentData: commentDataInterface = req.body
+    const dbres = await client.query('insert into comments (userid, resourceid, comment_text) values ($1, $2, $3) returning *', [commentData.userID, commentData.resourceID, commentData.commentText])
+    res.status(200).send(dbres)
+  }catch (error){
+    res.status(400).send(error)
+  }
+})
+
+app.get('/resources/comments/:resource_id', async (req,res) =>{
+  try{
+    const resource_id = req.params.resource_id
+    const dbres = await client.query('select * from comments where resourceid=$1', [resource_id])
+    res.status(200).json(dbres.rows)
+  }catch (error){
+    res.status(400).send(error)
+  }
+})
 
 app.post('/resources', async (req, res) => {
   try {
