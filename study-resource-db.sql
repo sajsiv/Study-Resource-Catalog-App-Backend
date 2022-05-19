@@ -16,23 +16,25 @@ CREATE TABLE resources (
   userid integer,
   recommendation_reasoning text NOT NULL,
   original_recommendation varchar(255) NOT NULL,
-  creation_date timestamp default current_timestamp without time zone NOT NULL,
+  creation_date timestamp default current_timestamp,
   stage character varying(255) NOT NULL,
   content_type character varying(255) NOT NULL,
   description text NOT NULL,
   author_name character varying(255) NOT NULL,
-  url character varying(255) NOT NULL,
+  url character varying(255) NOT NULL ,
   name character varying(255) NOT NULL,
   tags character varying(255) NOT NULL,
-  foreign key(userid) references users (userid)
+  foreign key(userid) references users (userid),
+  constraint unique_url unique (url)
 );
 
 CREATE TABLE tostudy (
     studyid serial primary key,
-  	resourceid integer,
+  	resourceid integer ,
   	userid integer,
     foreign key (resourceid) references resources (resourceid),
-    foreign key (userid) references users (userid)
+    foreign key (userid) references users (userid),
+  	constraint resourceid unique (resourceid)
 );
 
 
@@ -80,6 +82,10 @@ INSERT INTO users (is_faculty, name) VALUES
 (false, 'Temi Labinjo'),
 (false, 'Tiffany Wilmot-Simpson'),
 (false, 'Zahra Ben Gaied Hassine');
+
+
+
+
 
 
 

@@ -153,6 +153,32 @@ app.post('/resources', async (req, res) => {
 
 })
 
+app.post('/studylist', async (req, res) => {
+  try {
+    const {userid, resourceid} = req.body
+    const postQuery = 'insert into tostudy (userid, resourceid) values ($1, $2) returning *'
+    const postedQuery = await client.query(postQuery, [userid, resourceid])
+    res.status(200).json({status: 'success', data: {
+      info: postedQuery.rows
+    }})
+  }catch(error){
+    res.status(400).send(error)
+    
+  }
+})
+
+app.get('/studylist', async (req,res) => {
+  try {
+    const postQuery = `select resources.userid, resources.resourceid, recommendation_reasoning, original_recommendation, stage, 
+    content_type, description, author_name, url, name, tags, creation_date
+    from tostudy left join resources on tostudy.resourceid = resources.resourceid;`
+    const dbres = await client.query(postQuery)
+    res.status(200).json(dbres.rows)
+  }catch(error){
+    res.status(400).send(error)
+  }
+})
+
 
 
 //Start the server on the given port
