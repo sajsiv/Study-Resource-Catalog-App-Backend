@@ -194,6 +194,17 @@ app.get('/studylist/:userid', async (req,res) => {
   }
 })
 
+app.delete('/studylist/:userid/:resourceid', async (req,res) => {
+  try {
+    const {userid, resourceid} = req.params;
+    const deleteQuery = 'DELETE FROM tostudy WHERE userid = $1 AND resourceid= $2;'
+    const dbres = await client.query(deleteQuery, [userid, resourceid])
+    res.status(200).json(dbres.rows)
+  } catch(error){
+    res.status(400).send(error)
+  }
+})
+
 
 
 //Start the server on the given port
