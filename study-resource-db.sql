@@ -33,9 +33,10 @@ CREATE TABLE tostudy (
   	resourceid integer ,
   	userid integer,
     foreign key (resourceid) references resources (resourceid),
-    foreign key (userid) references users (userid),
-  	constraint resourceid unique (resourceid)
+    foreign key (userid) references users (userid)
 );
+
+ALTER TABLE tostudy ADD constraint combination unique (resourceid, userid);
 
 
 CREATE TABLE likes (
@@ -82,12 +83,3 @@ INSERT INTO users (is_faculty, name) VALUES
 (false, 'Temi Labinjo'),
 (false, 'Tiffany Wilmot-Simpson'),
 (false, 'Zahra Ben Gaied Hassine');
-
-
-
-
-
-
-
-
-
