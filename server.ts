@@ -167,12 +167,27 @@ app.post('/studylist', async (req, res) => {
   }
 })
 
-app.get('/studylist', async (req,res) => {
+
+
+// app.get('/resources/comments/:resource_id', async (req,res) =>{
+//   try{
+//     const resource_id = req.params.resource_id
+//     const dbres = await client.query('select * from comments where resourceid=$1', [resource_id])
+//     res.status(200).json(dbres.rows)
+//   }catch (error){
+//     res.status(400).send(error)
+//   }
+// })
+
+
+app.get('/studylist/:userid', async (req,res) => {
   try {
-    const postQuery = `select resources.userid, resources.resourceid, recommendation_reasoning, original_recommendation, stage, 
+    const userid = req.params.userid
+    const postQuery = `select resources.userid, resources.resourceid, recommendation_reasoning, 
+    original_recommendation, stage, 
     content_type, description, author_name, url, name, tags, creation_date
-    from tostudy left join resources on tostudy.resourceid = resources.resourceid;`
-    const dbres = await client.query(postQuery)
+    from tostudy left join resources on tostudy.resourceid = resources.resourceid where tostudy.userid=$1;`
+    const dbres = await client.query(postQuery, [userid])
     res.status(200).json(dbres.rows)
   }catch(error){
     res.status(400).send(error)
