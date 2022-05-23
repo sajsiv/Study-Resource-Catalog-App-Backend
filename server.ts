@@ -167,19 +167,6 @@ app.post('/studylist', async (req, res) => {
   }
 })
 
-
-
-// app.get('/resources/comments/:resource_id', async (req,res) =>{
-//   try{
-//     const resource_id = req.params.resource_id
-//     const dbres = await client.query('select * from comments where resourceid=$1', [resource_id])
-//     res.status(200).json(dbres.rows)
-//   }catch (error){
-//     res.status(400).send(error)
-//   }
-// })
-
-
 app.get('/studylist/:userid', async (req,res) => {
   try {
     const userid = req.params.userid
